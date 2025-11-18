@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>💳 Lista de Métodos de Pago</h2>
+    <a href="{% url 'agregar_metodo_pago' %}" class="btn btn-primary" style="margin-bottom: 1.5rem;">+ Agregar Nuevo Método</a>
+
+    {% if metodos %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for metodo in metodos %}
+            <tr>
+                <td>{{ metodo.id }}</td>
+                <td>{{ metodo.nombre }}</td>
+                <td>{{ metodo.get_tipo_display }}</td>
+                <td>{% if metodo.activo %}✅ Sí{% else %}❌ No{% endif %}</td>
+                <td>
+                    <a href="{% url 'actualizar_metodo_pago' metodo.id %}" class="btn btn-warning">Editar</a>
+                    <a href="{% url 'borrar_metodo_pago' metodo.id %}" class="btn btn-danger">Borrar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert">
+        <p>No hay métodos de pago registrados. ¡Agrega uno nuevo!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
